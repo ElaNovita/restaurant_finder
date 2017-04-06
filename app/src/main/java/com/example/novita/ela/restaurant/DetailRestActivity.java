@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.example.novita.ela.restaurant.Model.GalleryModel;
 import com.example.novita.ela.restaurant.Model.MenuModel;
@@ -35,11 +38,27 @@ public class DetailRestActivity extends AppCompatActivity {
     String TAG = "respon";
     ArrayList<Image> images = new ArrayList<>();
     ArrayList<Image> menuImages = new ArrayList<>();
+    Button haveBeen, bookmark;
+    RatingBar ratingBar;
+    TextView ratingTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_rest);
+
+        haveBeen = (Button) findViewById(R.id.haveBeen);
+        bookmark = (Button) findViewById(R.id.bookmark);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingTxt = (TextView) findViewById(R.id.rating_Txt);
+
+        haveBeen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ratingBar.setVisibility(View.VISIBLE);
+                ratingTxt.setVisibility(View.VISIBLE);
+            }
+        });
 
         menuRecyclerView = (RecyclerView) findViewById(R.id.menuRv);
         menuRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
