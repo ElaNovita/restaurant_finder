@@ -32,6 +32,12 @@ public interface MyInterface  {
     @GET("cafe_list.php")
     Call<List<CafeModel>> getCafeList();
 
+    @GET("cafe_list_likes.php")
+    Call<List<CafeModel>> getCafeListLikes();
+
+    @GET("cafe_list_alpha.php")
+    Call<List<CafeModel>> getCafeListAlpha();
+
     @GET("cafe_detail.php")
     Call<CafeModel> getCafeDetail(@Query("id") int id);
 

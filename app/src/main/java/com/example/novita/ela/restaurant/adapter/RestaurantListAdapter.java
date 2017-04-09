@@ -50,7 +50,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(models.get(position).getNama());
-        holder.address.setText(models.get(position).getAlamat());
+        holder.address.setText(models.get(position).getLokasi());
 //        holder.ratingBar.setRating(Float.parseFloat(models.get(position).getRestaurant().getUser_rating().getAggregate_rating()));
         Glide.with(context).load(RetrofitBuilder.BaseUrl + "img/" + models.get(position).getGambar()).into(holder.res_img);
         Log.d(TAG, "onBindViewHolder: " + RetrofitBuilder.BaseUrl + "img/" + models.get(position).getGambar());

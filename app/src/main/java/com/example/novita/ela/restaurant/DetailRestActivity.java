@@ -1,5 +1,7 @@
 package com.example.novita.ela.restaurant;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +12,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.novita.ela.restaurant.Model.CafeModel;
 import com.example.novita.ela.restaurant.Model.GalleryModel;
 import com.example.novita.ela.restaurant.Model.MenuModel;
 import com.example.novita.ela.restaurant.adapter.GalleryAdapter;
@@ -24,6 +31,7 @@ import com.example.novita.ela.restaurant.helper.RetrofitBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,12 +43,16 @@ public class DetailRestActivity extends AppCompatActivity {
     MenuAdapter menuAdapter;
     RecyclerView galleryRecyclerView;
     GalleryAdapter galleryAdapter;
-    String TAG = "respon";
+    String TAG = "respon" ;
     ArrayList<Image> images = new ArrayList<>();
     ArrayList<Image> menuImages = new ArrayList<>();
-    Button haveBeen, bookmark;
+    Button haveBeen, bookmark, map;
     RatingBar ratingBar;
-    TextView ratingTxt;
+    TextView ratingTxt, name, location, openTime, galleryImageCount, hp, address, bookmarkCount, beenThereCount;
+    ImageView cafeImg;
+    Double latitude, longitude;
+    LinearLayout galleryWrapper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,19 @@ public class DetailRestActivity extends AppCompatActivity {
         bookmark = (Button) findViewById(R.id.bookmark);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         ratingTxt = (TextView) findViewById(R.id.rating_Txt);
+        cafeImg = (ImageView) findViewById(R.id.cafe_img);
+        name = (TextView) findViewById(R.id.cafe_name);
+        location = (TextView) findViewById(R.id.cafe_location);
+        openTime = (TextView) findViewById(R.id.open_time);
+        galleryImageCount = (TextView) findViewById(R.id.gallery_image_count);
+        hp = (TextView) findViewById(R.id.hp);
+        address = (TextView) findViewById(R.id.address);
+        bookmarkCount = (TextView) findViewById(R.id.bookmark_count);
+        beenThereCount = (TextView) findViewById(R.id.been_there_count);
+        map = (Button) findViewById(R.id.map);
+        galleryWrapper = (LinearLayout) findViewById(R.id.img_wrapper);
+
+        int cafe_id = getIntent().getIntExtra("cafe_id", 0);
 
         haveBeen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +85,20 @@ public class DetailRestActivity extends AppCompatActivity {
             }
         });
 
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                Log.d(TAG, "onRatingChanged: " + rating + " " + ratingBar.getRating());
+            }
+        });
+
         menuRecyclerView = (RecyclerView) findViewById(R.id.menuRv);
         menuRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         galleryRecyclerView = (RecyclerView) findViewById(R.id.galleryRv);
         galleryRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-        reqMenu(1);
-        reqGallery(1);
+        reqJson(cafe_id);
+        reqMenu(cafe_id);
+        reqGallery(cafe_id);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -80,6 +113,45 @@ public class DetailRestActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void reqJson(int cafe_id) {
+        MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
+        Call<CafeModel> call = service.getCafeDetail(cafe_id);
+        call.enqueue(new Callback<CafeModel>() {
+            @Override
+            public void onResponse(Call<CafeModel> call, Response<CafeModel> response) {
+                CafeModel model = response.body();
+
+                name.setText(model.getNama());
+                location.setText(model.getLokasi());
+                openTime.setText(model.getJam());
+                hp.setText(model.getTlp());
+                address.setText(model.getAlamat());
+                bookmarkCount.setText(Integer.toString(model.getBookmark()) + " Bookmarks");
+                beenThereCount.setText(Integer.toString(model.getHave_here()) + " Been There");
+                latitude = model.getLat();
+                longitude = model.getLng();
+
+                Glide.with(getApplicationContext())
+                        .load(RetrofitBuilder.BaseUrl + "img/" + model.getGambar())
+                        .into(cafeImg);
+
+                map.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String uri = String.format(Locale.ENGLISH, "geo:%f, %f", latitude, longitude);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<CafeModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
     }
 
     private void reqMenu(int cafe_id) {
@@ -130,6 +202,12 @@ public class DetailRestActivity extends AppCompatActivity {
                 List<GalleryModel> models = response.body();
 
                 galleryAdapter = new GalleryAdapter(models, getApplicationContext());
+                if (models.size() <= 3) {
+                    galleryWrapper.setVisibility(View.GONE);
+                } else {
+                    galleryImageCount.setText(Integer.toHexString(models.size() - 3) + "+ Images");
+                }
+
 
                 for (int i = 0; i < models.size(); i++) {
                     Image image = new Image();

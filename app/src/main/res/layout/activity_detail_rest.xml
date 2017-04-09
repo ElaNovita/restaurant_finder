@@ -17,7 +17,6 @@
                 android:id="@+id/cafe_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/cafe"
                 android:layout_alignParentTop="true"
                 android:scaleType="fitXY"/>
             <ImageView
@@ -65,6 +64,7 @@
             android:layout_marginTop="16dp"
             android:textSize="18sp"/>
         <TextView
+            android:id="@+id/cafe_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -72,10 +72,32 @@
             android:textColor="@color/darkenGrey1"
             android:layout_marginTop="8dp"/>
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp">
+            <TextView
+                android:id="@+id/bookmark_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkenGrey2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textColor="@color/darkenGrey2"/>
+            <TextView
+                android:id="@+id/been_there_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkenGrey2"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <Button
                 android:id="@+id/bookmark"
@@ -220,6 +242,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/darkenGrey2"/>
             <TextView
+                android:id="@+id/hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="087865782331"
@@ -233,6 +256,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/darkenGrey2"/>
             <TextView
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jl. aja dulu, Bogor, Bogor Utara"

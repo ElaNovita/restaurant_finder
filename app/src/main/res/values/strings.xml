@@ -9,4 +9,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">808426912647507</string>
+    <string name="spinner_title">Sort by</string>
+
+    <string-array name="sorting">
+        <item> -- </item>
+        <item>Likes</item>
+        <item>Alphabet</item>
+    </string-array>
 </resources>
