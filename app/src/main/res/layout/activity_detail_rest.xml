@@ -127,16 +127,23 @@
             android:layout_height="wrap_content"
             android:text="Rating this place?"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
+            android:layout_marginTop="8dp"/>
         <RatingBar
             android:id="@+id/ratingBar"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:theme="@style/RatingBar"
             android:numStars="5"/>
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:background="@drawable/custombutton"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,6 +217,7 @@
                 android:layout_below="@id/galleryRv"
                 android:textColor="@color/darkenGrey2"/>
             <Button
+                android:id="@+id/addPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Photos"

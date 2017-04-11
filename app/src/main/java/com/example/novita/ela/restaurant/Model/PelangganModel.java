@@ -6,7 +6,7 @@ package com.example.novita.ela.restaurant.Model;
 
 public class PelangganModel {
     int id, user_id;
-    String nama, alamat, hp, gambar;
+    String email, gambar;
 
     public int getId() {
         return id;
@@ -24,35 +24,19 @@ public class PelangganModel {
         this.user_id = user_id;
     }
 
-    public String getNama() {
-        return nama;
-    }
-
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
-
-    public String getAlamat() {
-        return alamat;
-    }
-
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
-    }
-
-    public String getHp() {
-        return hp;
-    }
-
-    public void setHp(String hp) {
-        this.hp = hp;
-    }
-
     public String getGambar() {
         return gambar;
     }
 
     public void setGambar(String foto) {
         this.gambar = gambar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

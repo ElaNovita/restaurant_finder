@@ -7,7 +7,8 @@ package com.example.novita.ela.restaurant.Model;
 public class CafeModel {
     int id, likes, bookmark, have_here;
     String nama, alamat, tlp, email, fb, ig, jam, deskripsi, lokasi, gambar;
-    double lat, lng;
+    double lat, lng, rating;
+    boolean status;
 
 
     public int getId() {
@@ -84,5 +85,21 @@ public class CafeModel {
 
     public void setHave_here(int have_here) {
         this.have_here = have_here;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

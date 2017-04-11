@@ -4,6 +4,7 @@ package com.example.novita.ela.restaurant.helper;
 import com.example.novita.ela.restaurant.Model.CafeModel;
 import com.example.novita.ela.restaurant.Model.GalleryModel;
 import com.example.novita.ela.restaurant.Model.LikeModel;
+import com.example.novita.ela.restaurant.Model.MarkModel;
 import com.example.novita.ela.restaurant.Model.MenuModel;
 import com.example.novita.ela.restaurant.Model.RegisterModel;
 import com.example.novita.ela.restaurant.Model.ReservasiModel;
@@ -57,8 +58,7 @@ public interface MyInterface  {
     @FormUrlEncoded
     @POST("register.php")
     Call<RegisterModel> register(@Field("username") String username, @Field("password") String password,
-                                 @Field("nama") String name, @Field("alamat") String address,
-                                 @Field("hp") String hp);
+                                 @Field("email") String email, @Field("gambar") String gambar);
     @FormUrlEncoded
     @POST("reservasi.php")
     Call<ReservasiModel> reservasi(@Field("meja") int meja, @Field("keterangan") String ket,
@@ -71,14 +71,17 @@ public interface MyInterface  {
     Call<UserModel> editProfile(@Part("id") RequestBody id,
                                 @Part("username") RequestBody username,
                                 @Part("password") RequestBody password,
-                                @Part("nama") RequestBody nama,
-                                @Part("alamat") RequestBody alamat,
-                                @Part("hp") RequestBody hp,
+                                @Part("email") RequestBody email,
                                 @Part MultipartBody.Part gambar);
 
     @FormUrlEncoded
     @POST("likes.php")
     Call<Success> like(@Field("cafe_id") int cafe_id, @Field("user_id") int user_id);
+
+    @FormUrlEncoded
+    @POST("set_rating.php")
+    Call<CafeModel> setRating(@Field("id") int id,
+                            @Field("rating") Double rating);
 
     @FormUrlEncoded
     @POST("check_like.php")
@@ -100,4 +103,18 @@ public interface MyInterface  {
     @POST("delete_token.php")
     Call<UserModel> deleteToken(@Field("id") int id);
 
+    @FormUrlEncoded
+    @POST("cek_marked.php")
+    Call<MarkModel> cekMarked(@Field("cafe_id") int cafe_id,
+                              @Field("user_id") int user_id);
+
+    @FormUrlEncoded
+    @POST("marked.php")
+    Call<CafeModel> mark(@Field("cafe_id") int cafe_id,
+                         @Field("user_id") int user_id);
+
+    @Multipart
+    @POST("upload_photo.php")
+    Call<GalleryModel> uploadPhoto(@Part("cafe_id") RequestBody cafe_id,
+                                   @Part MultipartBody.Part gambar);
 }

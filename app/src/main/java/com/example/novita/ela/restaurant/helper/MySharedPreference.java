@@ -131,4 +131,13 @@ public class MySharedPreference extends Application {
     public String getFirebaseToken() {
         return sp.getString("token", null);
     }
+
+    public void setEmail(String email) {
+        editor.putString("email", email);
+        editor.commit();
+    }
+
+    public String getEmail() {
+        return sp.getString("email", null);
+    }
 }

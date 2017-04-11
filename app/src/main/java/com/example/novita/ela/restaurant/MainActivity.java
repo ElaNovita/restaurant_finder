@@ -1,6 +1,7 @@
 package com.example.novita.ela.restaurant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     MySharedPreference sf;
     boolean login;
     Spinner sortingSpinner;
+    SharedPreferences prefs = null;
 
 
     @Override
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.resRv);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
@@ -91,22 +95,18 @@ public class MainActivity extends AppCompatActivity
             navigationView.addHeaderView(loginHeader);
             header2 = navigationView.getHeaderView(0);
 
-            TextView register = (TextView) header2.findViewById(R.id.to_sign_up);
             Button login = (Button) header2.findViewById(R.id.login);
-            register.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    goToActivity(RegisterActivity.class);
-                }
-            });
+            CircleImageView userImg = (CircleImageView) header2.findViewById(R.id.userImg);
+            Glide.with(getApplicationContext()).load(RetrofitBuilder.BaseUrl + "img/person.png").into(userImg);
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    goToActivity(LoginActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                    intent.putExtra("status", "second");
+                    startActivity(intent);
                 }
             });
         }
-
 
     }
 
@@ -179,11 +179,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.marked) {
+            goToActivity(MainActivity.class);
+        } else if (id == R.id.setting) {
+            goToActivity(EditActivity.class);
+        } else if (id == R.id.logout) {
             sf.setStatus(false);
             goToActivity(MainActivity.class);
-        } else if (id == R.id.nav_gallery) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -304,4 +306,6 @@ public class MainActivity extends AppCompatActivity
     public void onNothingSelected(AdapterView<?> parent) {
         //
     }
+
+
 }

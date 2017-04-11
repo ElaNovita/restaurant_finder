@@ -69,11 +69,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (status.equals("success")) {
                     sf.setStatus(true);
                     sf.setUsername(_username);
-                    sf.set_name(model.getPelanggan().getNama());
-                    sf.setAlamat(model.getPelanggan().getAlamat());
-                    sf.setHp(model.getPelanggan().getHp());
+                    sf.setEmail(model.getPelanggan().getEmail());
                     sf.setPelangganId(model.getId());
                     sf.setId(response.body().getId());
+                    sf.set_Image(model.getPelanggan().getGambar());
 
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);

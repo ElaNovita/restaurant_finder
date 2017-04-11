@@ -17,4 +17,5 @@
         <item>Likes</item>
         <item>Alphabet</item>
     </string-array>
+    <string name="title_activity_base">BaseActivity</string>
 </resources>

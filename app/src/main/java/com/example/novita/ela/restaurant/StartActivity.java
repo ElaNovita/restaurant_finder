@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -20,6 +21,7 @@ public class StartActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     String TAG = "respon";
     Button login, signup;
+    TextView skip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,21 @@ public class StartActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_start);
 
+        String status = getIntent().getStringExtra("status");
+
+
+
         loginButton = (LoginButton) findViewById(R.id.fb_login);
         loginButton.setText("Continue with facebook");
         login = (Button) findViewById(R.id.login);
         signup = (Button) findViewById(R.id.signup);
+        skip = (TextView) findViewById(R.id.skip);
+
+        if (status.equals("first")) {
+            skip.setVisibility(View.VISIBLE);
+        } else {
+            skip.setVisibility(View.GONE);
+        }
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -68,6 +81,13 @@ public class StartActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
 
+            }
+        });
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

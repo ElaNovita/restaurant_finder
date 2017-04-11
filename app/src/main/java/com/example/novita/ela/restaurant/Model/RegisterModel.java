@@ -5,14 +5,11 @@ package com.example.novita.ela.restaurant.Model;
  */
 
 public class RegisterModel {
-    String username, password, nama, alamat, hp;
-
+    String username, password, email, gambar;
 
     public String getUsername() {
         return username;
     }
-
-
 
     public void setUsername(String username) {
         this.username = username;
@@ -26,27 +23,19 @@ public class RegisterModel {
         this.password = password;
     }
 
-    public String getNama() {
-        return nama;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public String getGambar() {
+        return gambar;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
-    }
-
-    public String getHp() {
-        return hp;
-    }
-
-    public void setHp(String hp) {
-        this.hp = hp;
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 }

@@ -17,7 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitBuilder {
     public static final String BaseUrl = "http://192.168.12.150/cafe_finder/";
-
+//    192.168.43.8
+//    192.168.12.150
 
     private Context _context;
 

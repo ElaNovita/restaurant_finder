@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/marked"
+        android:icon="@drawable/ic_bookmark_border_black_24dp"
+        android:title="Visited Place" />
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Logout" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:title="aaa"/>
-        <item
-            android:id="@+id/exit"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="n" />
-        <item
-            android:id="@+id/bookmark"
-            android:icon="@drawable/ic_bookmark_border_black_24dp"
-            android:title="Bookmark" />
-        <item
-            android:id="@+id/logout"
-            android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="b" />
-    </group>
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Setting" />
 
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="Logout" />
 
 </menu>
