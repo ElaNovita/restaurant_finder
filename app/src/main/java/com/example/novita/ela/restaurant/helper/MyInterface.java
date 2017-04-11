@@ -1,6 +1,7 @@
 package com.example.novita.ela.restaurant.helper;
 
 
+import com.example.novita.ela.restaurant.Model.BookmarkModel;
 import com.example.novita.ela.restaurant.Model.CafeModel;
 import com.example.novita.ela.restaurant.Model.GalleryModel;
 import com.example.novita.ela.restaurant.Model.LikeModel;
@@ -104,14 +105,24 @@ public interface MyInterface  {
     Call<UserModel> deleteToken(@Field("id") int id);
 
     @FormUrlEncoded
+    @POST("cek_bookmark.php")
+    Call<BookmarkModel> cekBookmark(@Field("cafe_id") int cafe_id,
+                                    @Field("user_id") int user_id);
+
+    @FormUrlEncoded
     @POST("cek_marked.php")
-    Call<MarkModel> cekMarked(@Field("cafe_id") int cafe_id,
-                              @Field("user_id") int user_id);
+    Call<BookmarkModel> cekMarked(@Field("cafe_id") int cafe_id,
+                                    @Field("user_id") int user_id);
 
     @FormUrlEncoded
     @POST("marked.php")
     Call<CafeModel> mark(@Field("cafe_id") int cafe_id,
                          @Field("user_id") int user_id);
+
+    @FormUrlEncoded
+    @POST("bookmark.php")
+    Call<BookmarkModel> setBookmark(@Field("cafe_id") int cafe_id,
+                                @Field("user_id") int user_id);
 
     @Multipart
     @POST("upload_photo.php")

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <ImageView
+            android:id="@+id/cafe_img"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/cafe"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:id="@+id/cafe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/cafe_img"
+            android:text="Sweet Monster"
+            android:layout_marginLeft="16dp"
+            android:textSize="17sp"/>
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cafe_name"
+            android:layout_toRightOf="@id/cafe_img"
+            android:text="Bogor Utara, Bogor"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

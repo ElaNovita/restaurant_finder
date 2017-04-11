@@ -20,8 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.novita.ela.restaurant.Model.BookmarkModel;
 import com.example.novita.ela.restaurant.Model.CafeModel;
 import com.example.novita.ela.restaurant.Model.GalleryModel;
+import com.example.novita.ela.restaurant.Model.LikeModel;
 import com.example.novita.ela.restaurant.Model.MarkModel;
 import com.example.novita.ela.restaurant.Model.MenuModel;
 import com.example.novita.ela.restaurant.adapter.GalleryAdapter;
@@ -61,9 +63,9 @@ public class DetailRestActivity extends AppCompatActivity {
     Double latitude, longitude;
     LinearLayout galleryWrapper;
     Float ratingValue = 0f;
-    String s;
+    String s, bookmarkStatus = "tdk ada", markedStatus = "tdk ada";
     Button ok;
-    Boolean login, markStatus;
+    Boolean login;
     private static final int PICK_IMAGE_REQUEST = 1;
     MySharedPreference sf;
     int _beenThere, cafe_id, user_id;
@@ -102,12 +104,46 @@ public class DetailRestActivity extends AppCompatActivity {
             user_id = sf.getId();
         }
 
+        cekBookmark();
+        cekMarked();
+
+        bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (login) {
+                    Log.d(TAG, "onClick: " + bookmarkStatus);
+                    setBookmark();
+                    if (bookmarkStatus.matches("tdk ada")) {
+                        Toast.makeText(getApplicationContext(), "Added to bookmark", Toast.LENGTH_SHORT).show();
+                        bookmarkStatus = "ada";
+                        bookmark.setBackgroundResource(R.drawable.marked_button);
+                        bookmark.setText("Bookmarked");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Already in bookmark list", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                    intent.putExtra("status", "second");
+                    startActivity(intent);
+                }
+            }
+        });
+
         haveBeen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (login) {
                     reqMark(cafe_id, user_id);
-                    beenThereCount.setText(Integer.toString(_beenThere + 1) + " Been There");
+
+                    if (markedStatus.matches("tdk ada")) {
+                        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+                        markedStatus = "ada";
+                        haveBeen.setBackgroundResource(R.drawable.marked_button);
+                        haveBeen.setText("Visited Place");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Already in visited place", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                     intent.putExtra("status", "second");
@@ -392,4 +428,79 @@ public class DetailRestActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setBookmark() {
+        MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
+        Call<BookmarkModel> call = service.setBookmark(cafe_id, user_id);
+        call.enqueue(new Callback<BookmarkModel>() {
+            @Override
+            public void onResponse(Call<BookmarkModel> call, Response<BookmarkModel> response) {
+                Log.d(TAG, "onResponse: set " + response.code());
+                Log.d(TAG, "onResponse: set " + response.body().isStatus());
+                Log.d(TAG, "onResponse: set" + response.body().getCafe_id());
+                Log.d(TAG, "onResponse: set" + response.body().getUser_id());
+                if (response.body().isStatus()) {
+                    bookmarkStatus = "ada";
+                    Log.d(TAG, "onResponse: set " + response.body().isStatus());
+
+                } else {
+                    bookmarkStatus = "tdk ada";
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
+    private void cekBookmark() {
+        MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
+        Call<BookmarkModel> call = service.cekBookmark(cafe_id, user_id);
+        call.enqueue(new Callback<BookmarkModel>() {
+            @Override
+            public void onResponse(Call<BookmarkModel> call, Response<BookmarkModel> response) {
+                Log.d(TAG, "onResponse: cek " + response.body().isStatus());
+                BookmarkModel model = response.body();
+                if (model.isStatus()) {
+                    bookmark.setBackgroundResource(R.drawable.marked_button);
+                    bookmark.setText("Bookmarked");
+                    bookmarkStatus = "ada";
+                } else {
+                    bookmarkStatus = "tdk ada";
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void cekMarked() {
+        MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
+        Call<BookmarkModel> call = service.cekMarked(cafe_id, user_id);
+        call.enqueue(new Callback<BookmarkModel>() {
+            @Override
+            public void onResponse(Call<BookmarkModel> call, Response<BookmarkModel> response) {
+                Log.d(TAG, "onResponse: cek " + response.body().isStatus());
+                BookmarkModel model = response.body();
+                if (model.isStatus()) {
+                    haveBeen.setBackgroundResource(R.drawable.marked_button);
+                    haveBeen.setText("Visited Place");
+                    markedStatus = "ada";
+                } else {
+                    markedStatus = "tdk ada";
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkModel> call, Throwable t) {
+
+            }
+        });
+    }
 }
+

@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/marked"
-        android:icon="@drawable/ic_bookmark_border_black_24dp"
+        android:icon="@drawable/ic_pin_drop_black_24dp"
         android:title="Visited Place" />
+
+    <item
+        android:id="@+id/bookmark"
+        android:icon="@drawable/ic_bookmark_border_black_24dp"
+        android:title="Bookmark" />
 
     <item
         android:id="@+id/setting"
