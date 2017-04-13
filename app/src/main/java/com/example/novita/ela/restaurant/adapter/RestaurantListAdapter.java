@@ -28,6 +28,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     Context context;
     String TAG = "respon";
     public  static OnItemClickListener listener;
+    int rating;
 
 //    private void setOnItemClickListener(OnItemClickListener listener) {
 //        this.listener = listener;
@@ -37,6 +38,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     public RestaurantListAdapter(List<CafeModel> models, Context context, OnItemClickListener listener) {
         this.models = models;
         this.context = context;
+//        this.rating = rating;
         this.listener = listener;
     }
 
@@ -51,7 +53,14 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(models.get(position).getNama());
         holder.address.setText(models.get(position).getLokasi());
-//        holder.ratingBar.setRating(Float.parseFloat(models.get(position).getRestaurant().getUser_rating().getAggregate_rating()));
+        int amount = models.get(position).getRating_amount();
+        if (amount == 0) {
+            holder.ratingValue.setVisibility(View.GONE);
+        } else {
+            holder.ratingValue.setText("(" + Integer.toString(amount) + ")");
+        }
+        float f = (float) models.get(position).getRating();
+        holder.ratingBar.setRating(f);
         Glide.with(context).load(RetrofitBuilder.BaseUrl + "img/" + models.get(position).getGambar()).into(holder.res_img);
         Log.d(TAG, "onBindViewHolder: " + RetrofitBuilder.BaseUrl + "img/" + models.get(position).getGambar());
     }
@@ -63,7 +72,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView res_img;
-        TextView name, address;
+        TextView name, address, ratingValue;
         RatingBar ratingBar;
 
         public ViewHolder(View itemView) {
@@ -73,6 +82,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             name = (TextView) itemView.findViewById(R.id.res_name);
             address = (TextView) itemView.findViewById(R.id.res_address);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            ratingValue = (TextView) itemView.findViewById(R.id.rating_value);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

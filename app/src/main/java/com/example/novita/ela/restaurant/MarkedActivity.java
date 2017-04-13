@@ -19,7 +19,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BookmarkActivity extends AppCompatActivity {
+public class MarkedActivity extends AppCompatActivity {
+
     TextView empty;
     RecyclerView recyclerView;
     BookmarkAdapter adapter;
@@ -41,7 +42,7 @@ public class BookmarkActivity extends AppCompatActivity {
 
     private void reqJson(int user_id) {
         MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
-        Call<List<CafeModel>> call = service.getBookmarkList(user_id);
+        Call<List<CafeModel>> call = service.getMarkList(user_id);
         call.enqueue(new Callback<List<CafeModel>>() {
             @Override
             public void onResponse(Call<List<CafeModel>> call, Response<List<CafeModel>> response) {

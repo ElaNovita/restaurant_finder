@@ -8,7 +8,9 @@ public class CafeModel {
     int id, likes, bookmark, have_here;
     String nama, alamat, tlp, email, fb, ig, jam, deskripsi, lokasi, gambar;
     double lat, lng, rating;
+    int rating_amount;
     boolean status;
+
 
 
     public int getId() {
@@ -101,5 +103,13 @@ public class CafeModel {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public int getRating_amount() {
+        return rating_amount;
+    }
+
+    public void setRating_amount(int rating_amount) {
+        this.rating_amount = rating_amount;
     }
 }

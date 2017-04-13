@@ -5,8 +5,8 @@ import com.example.novita.ela.restaurant.Model.BookmarkModel;
 import com.example.novita.ela.restaurant.Model.CafeModel;
 import com.example.novita.ela.restaurant.Model.GalleryModel;
 import com.example.novita.ela.restaurant.Model.LikeModel;
-import com.example.novita.ela.restaurant.Model.MarkModel;
 import com.example.novita.ela.restaurant.Model.MenuModel;
+import com.example.novita.ela.restaurant.Model.RatingModel;
 import com.example.novita.ela.restaurant.Model.RegisterModel;
 import com.example.novita.ela.restaurant.Model.ReservasiModel;
 import com.example.novita.ela.restaurant.Model.Success;
@@ -42,6 +42,12 @@ public interface MyInterface  {
 
     @GET("cafe_detail.php")
     Call<CafeModel> getCafeDetail(@Query("id") int id);
+
+    @GET("bookmark_list.php")
+    Call<List<CafeModel>> getBookmarkList(@Query("user_id") int user_id);
+
+    @GET("marked_list.php")
+    Call<List<CafeModel>> getMarkList(@Query("user_id") int user_id);
 
     @GET("menu.php")
     Call<List<MenuModel>> getMenuList(@Query("id") int id);
@@ -81,8 +87,8 @@ public interface MyInterface  {
 
     @FormUrlEncoded
     @POST("set_rating.php")
-    Call<CafeModel> setRating(@Field("id") int id,
-                            @Field("rating") Double rating);
+    Call<RatingModel> setRating(@Field("user_id") int user_id,
+                                @Field("cafe_id") int cafe_id);
 
     @FormUrlEncoded
     @POST("check_like.php")
@@ -128,4 +134,12 @@ public interface MyInterface  {
     @POST("upload_photo.php")
     Call<GalleryModel> uploadPhoto(@Part("cafe_id") RequestBody cafe_id,
                                    @Part MultipartBody.Part gambar);
+
+    @FormUrlEncoded
+    @POST("rating.php")
+    Call<CafeModel> rating(@Field("cafe_id") int cafe_id,
+                           @Field("user_id") int user_id, @Field("value") double value);
+
+
+
 }

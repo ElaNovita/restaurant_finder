@@ -19,11 +19,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.novita.ela.restaurant.Model.CafeModel;
@@ -53,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     boolean login;
     Spinner sortingSpinner;
     SharedPreferences prefs = null;
+    int count = 0;
 
 
     @Override
@@ -75,8 +73,9 @@ public class MainActivity extends AppCompatActivity
         sortingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortingSpinner.setAdapter(sortingAdapter);
 
-        reqJson();
+//        cekRating();
 
+        reqJson();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         call.enqueue(new Callback<List<CafeModel>>() {
             @Override
             public void onResponse(Call<List<CafeModel>> call, final Response<List<CafeModel>> response) {
-                adapter = new RestaurantListAdapter(response.body(), getApplicationContext(), new OnItemClickListener() {
+                adapter = new RestaurantListAdapter(response.body(), getApplicationContext(),  new OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position, boolean isLongClick) {
                         List<CafeModel> models = response.body();
@@ -180,7 +179,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.marked) {
-            goToActivity(MainActivity.class);
+            goToActivity(MarkedActivity.class);
+        } else if (id == R.id.bookmark) {
+            goToActivity(BookmarkActivity.class);
         } else if (id == R.id.setting) {
             goToActivity(EditActivity.class);
         } else if (id == R.id.logout) {
@@ -288,10 +289,13 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
         Log.d(TAG, "onItemSelected: " + item);
+
 
         if (item.matches("Likes")) {
             reqCafeLikes();

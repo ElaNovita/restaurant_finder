@@ -51,7 +51,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditActivity" />
-        <activity android:name=".BookmarkActivity"></activity>
+        <activity android:name=".BookmarkActivity" />
+        <activity android:name=".MarkedActivity"></activity>
     </application>
 
 </manifest>

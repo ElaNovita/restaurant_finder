@@ -26,6 +26,7 @@ import com.example.novita.ela.restaurant.Model.GalleryModel;
 import com.example.novita.ela.restaurant.Model.LikeModel;
 import com.example.novita.ela.restaurant.Model.MarkModel;
 import com.example.novita.ela.restaurant.Model.MenuModel;
+import com.example.novita.ela.restaurant.Model.RatingModel;
 import com.example.novita.ela.restaurant.adapter.GalleryAdapter;
 import com.example.novita.ela.restaurant.adapter.MenuAdapter;
 import com.example.novita.ela.restaurant.helper.Image;
@@ -36,6 +37,7 @@ import com.example.novita.ela.restaurant.helper.RealPathUtil;
 import com.example.novita.ela.restaurant.helper.RetrofitBuilder;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -204,6 +206,7 @@ public class DetailRestActivity extends AppCompatActivity {
         reqJson(cafe_id);
         reqMenu(cafe_id);
         reqGallery(cafe_id);
+        cekRating();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -366,7 +369,7 @@ public class DetailRestActivity extends AppCompatActivity {
 
     private void reqRating(int cafe_id, Double rating) {
         MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
-        Call<CafeModel> call = service.setRating(cafe_id, rating);
+        Call<CafeModel> call = service.rating(cafe_id, user_id, rating);
         call.enqueue(new Callback<CafeModel>() {
             @Override
             public void onResponse(Call<CafeModel> call, Response<CafeModel> response) {
@@ -498,6 +501,28 @@ public class DetailRestActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BookmarkModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void cekRating() {
+        MyInterface service = new RetrofitBuilder(getApplicationContext()).getRetrofit().create(MyInterface.class);
+        Call<RatingModel> call = service.setRating(user_id, cafe_id);
+        call.enqueue(new Callback<RatingModel>() {
+            @Override
+            public void onResponse(Call<RatingModel> call, Response<RatingModel> response) {
+                Log.d(TAG, "onResponse: " + response.body().isStatus());
+                RatingModel model = response.body();
+                if (model.isStatus()) {
+                    double d = model.getValue();
+                    float f = (float) d;
+                    ratingBar.setRating(f);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RatingModel> call, Throwable t) {
 
             }
         });

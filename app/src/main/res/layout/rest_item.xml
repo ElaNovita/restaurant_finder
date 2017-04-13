@@ -38,7 +38,7 @@
                 android:rating="3"
                 android:theme="@style/RatingBar" />
             <TextView
-                android:id="@+id/rating_size"
+                android:id="@+id/rating_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(36)"/>
