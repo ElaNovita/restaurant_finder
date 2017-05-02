@@ -140,4 +140,13 @@ public class MySharedPreference extends Application {
     public String getEmail() {
         return sp.getString("email", null);
     }
+
+    public void setFbUserId(String id) {
+        editor.putString("id", id);
+        editor.commit();
+    }
+
+    public String getFbUserId() {
+        return sp.getString("id", null);
+    }
 }

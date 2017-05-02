@@ -30,6 +30,13 @@ import com.example.novita.ela.restaurant.helper.MyInterface;
 import com.example.novita.ela.restaurant.helper.MySharedPreference;
 import com.example.novita.ela.restaurant.helper.OnItemClickListener;
 import com.example.novita.ela.restaurant.helper.RetrofitBuilder;
+import com.facebook.AccessToken;
+import com.facebook.FacebookRequestError;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 
 import java.util.List;
 
@@ -51,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     Spinner sortingSpinner;
     SharedPreferences prefs = null;
     int count = 0;
+    String fid;
 
 
     @Override
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        fid = getIntent().getStringExtra("id");
 
         recyclerView = (RecyclerView) findViewById(R.id.resRv);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
@@ -186,6 +195,7 @@ public class MainActivity extends AppCompatActivity
             goToActivity(EditActivity.class);
         } else if (id == R.id.logout) {
             sf.setStatus(false);
+            logoutFb();
             goToActivity(MainActivity.class);
         }
 
@@ -311,5 +321,12 @@ public class MainActivity extends AppCompatActivity
         //
     }
 
+    private void logoutFb() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            LoginManager.getInstance().logOut();
+        }
+
+    }
 
 }

@@ -140,6 +140,7 @@ public interface MyInterface  {
     Call<CafeModel> rating(@Field("cafe_id") int cafe_id,
                            @Field("user_id") int user_id, @Field("value") double value);
 
-
-
+    @FormUrlEncoded
+    @POST("reg_fb.php")
+    Call<UserModel> regFb(@Field("username") String username, @Field("email") String email, @Field("url") String url);
 }
